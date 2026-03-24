@@ -110,9 +110,9 @@ function capturePhoto() {
 
   ctx.drawImage(
   video,
-  video.videoWidth * 0.2,  // crop kiri
-  video.videoHeight * 0.1, // crop atas
-  video.videoWidth * 0.7,  // lebar crop
+  video.videoWidth * 1,  // crop kiri
+  video.videoHeight * 1, // crop atas
+  video.videoWidth * 1,  // lebar crop
   video.videoHeight * 1, // tinggi crop
   0, 0,
   canvas.width,
