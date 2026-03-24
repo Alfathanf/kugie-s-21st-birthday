@@ -2,13 +2,30 @@
   <section class="screen invitation-screen">
     <div class="invite-card">
       <div class="invite-header">
-        <h1>💕 You're Invited 💕</h1>
-        <p>Dinner Date With Me?</p>
+        <h1>💕 INVITATION CARD 💕</h1>
+        <p>
+
+Kepada Yang Tersayang
+Anggita Ayu Lintang Sinaranee
+Calon Istri Saya Tercinta
+
+Dengan penuh rasa kasih sayang, saya mengundang calon istri saya tercinta untuk ngedate bersama saya yang akan dilaksanakan pada:
+
+🗓 Selasa, 30 Desember 2025
+⏰ 12.00 WIB - selesai
+📍 Tentrem on Ice, La Cerise, Newspaper Photobooth Kota Lama
+👕 TBA
+
+Demikian surat undangan ini saya sampaikan. Besar harapan saya agar calon istri saya tercinta dapat menghadiri date pada bulan Desember ini. Atas perhatiannya, saya ucapkan terima kasih dan i love you so muchhh.
+
+Semarang, 28 Desember 2025
+Farrel Alfat'han
+Calon Suami Anda Tercinta</p>
       </div>
 
       <div class="invite-action-row">
         <button class="btn-accept" @click="acceptInvite">
-          Accept ❤️
+          Mau dong ❤️
         </button>
 
         <button
@@ -18,7 +35,7 @@
           @pointermove="moveReject"
           @touchstart="moveReject"
         >
-          Reject ❌
+          Tak Nak ❌
         </button>
       </div>
     </div>
