@@ -247,6 +247,7 @@ onBeforeUnmount(() => stopStream())
   object-fit: cover;
 
   z-index: 1;
+  transform: scaleX(-1);
 }
 
 /* 🔥 FRAME (DI DEPAN) */
