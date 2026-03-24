@@ -38,7 +38,7 @@
       </button>
 
       <button v-if="mode === 'polaroid'" @click="retake" class="btn-secondary">
-        🔄 Retake
+        Retake
       </button>
 
       <button @click="goBack" class="btn-back">← Back</button>
@@ -196,21 +196,22 @@ onBeforeUnmount(() => stopStream())
 /* 🔥 POSISI VIDEO (SUDAH PAS KE FRAME) */
 .video-feed {
   position: absolute;
-
-  top: 58px;
-  left: 48px;
-
-  width: 360px;
-  height: 230px;
-
+  top: 12%;     /* SESUAIKAN DENGAN HOLE FRAME */
+  left: 8%;
+  width: 64%;
+  height: 52%;
   object-fit: cover;
-  transform: scaleX(-1);
+  z-index: 1;
+
+  transform: scaleX(-1); /* mirror */
 }
 
 /* FRAME */
 .frame-overlay {
   width: 100%;
   display: block;
+  z-index: 2;
+  position: relative;
 }
 
 /* ================= POLAROID ================= */

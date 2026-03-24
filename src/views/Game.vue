@@ -17,7 +17,7 @@
       </button>
     </div>
 
-    <button class="back-btn" @click="goBack">← Back to Menu</button>
+    <button class="back-btn" @click="goBack">Pilih hadiah yang lain ah</button>
 
     <!-- 🎉 MODAL -->
     <div v-if="state.completed" class="modal-layer">
