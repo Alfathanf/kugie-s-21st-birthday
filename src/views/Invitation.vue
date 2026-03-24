@@ -1,27 +1,11 @@
 <template>
   <section class="screen invitation-screen">
     <div class="invite-card">
-      <div class="invite-header">
-        <h1>💕 INVITATION CARD 💕</h1>
-        <p>
-
-Kepada Yang Tersayang
-Anggita Ayu Lintang Sinaranee
-Calon Istri Saya Tercinta
-
-Dengan penuh rasa kasih sayang, saya mengundang calon istri saya tercinta untuk ngedate bersama saya yang akan dilaksanakan pada:
-
-🗓 Selasa, 30 Desember 2025
-⏰ 12.00 WIB - selesai
-📍 Tentrem on Ice, La Cerise, Newspaper Photobooth Kota Lama
-👕 TBA
-
-Demikian surat undangan ini saya sampaikan. Besar harapan saya agar calon istri saya tercinta dapat menghadiri date pada bulan Desember ini. Atas perhatiannya, saya ucapkan terima kasih dan i love you so muchhh.
-
-Semarang, 28 Desember 2025
-Farrel Alfat'han
-Calon Suami Anda Tercinta</p>
-      </div>
+        <img 
+  src="/assets/images/invitation.png" 
+  alt="Invitation Card" 
+  class="invite-image"
+/>
 
       <div class="invite-action-row">
         <button class="btn-accept" @click="acceptInvite">
@@ -138,6 +122,28 @@ function moveReject(e) {
   }
 }
 
+.invite-image {
+  width: 100%;
+  max-width: 420px; /* biar ga kegedean */
+  border-radius: 16px;
+  background: white;
+  padding: 10px;
+
+  box-shadow: 0 10px 30px rgba(255, 140, 199, 0.3);
+
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .invite-card {
   display: flex;
   flex-direction: column;

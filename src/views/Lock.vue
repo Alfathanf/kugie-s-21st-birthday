@@ -2,8 +2,8 @@
   <section class="screen lock-screen">
     <div class="lock-card">
       <div class="title-container">
-        <h1>🎂 Happy 21st</h1>
-        <p class="subtitle">Enter Your PIN to unlock your gifts</p>
+        <h1>⭐ Happy 21st Birthday 💖</h1>
+        <p class="subtitle">masukkin dulu pinnya, kamu pasti tahu lah ya pin nya berapa</p>
       </div>
       <div class="pin-display">
         <span v-for="n in 6" :key="n" :class="['pin-dot', { filled: n <= pinValue.length }]" />
@@ -48,7 +48,7 @@ function checkPin() {
     error.value = '';
     router.push('/menu');
   } else {
-    error.value = 'Incorrect PIN. Try again!';
+    error.value = 'tet totttt, masa lupa pinnya, cluenya anniversary kita';
     pinValue.value = '';
   }
 }

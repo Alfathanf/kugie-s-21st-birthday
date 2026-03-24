@@ -1,6 +1,6 @@
 <template>
   <section class="screen game-screen">
-    <h2 class="game-title">🧠 Memory Game 🧠</h2>
+    <h2 class="game-title">Win the Game to Get the Reward! (awas jumpscare 😱)</h2>
 
     <div class="game-grid">
       <button 
@@ -17,17 +17,17 @@
       </button>
     </div>
 
-    <button class="back-btn" @click="goBack">Pilih hadiah yang lain ah</button>
+    <button class="back-btn" @click="goBack">More Giftsssss!!!!!</button>
 
     <!-- 🎉 MODAL -->
     <div v-if="state.completed" class="modal-layer">
       <div class="modal-content celebration">
 
-        <h2>🎉 You Did It! 🎉</h2>
-        <p>You matched all the pairs! ❤️</p>
-        <p class="completion-message">You're amazing!</p>
+        <h2>🎉 Yippieee 🎉</h2>
+        <p>You matched all the cards!</p>
+        <p class="completion-message">Good Jobbbb!</p>
 
-        <button @click="goToReward">Get Your Reward 🎁</button>
+        <button @click="goToReward">Your Gift! 🎁</button>
       </div>
     </div>
   </section>
