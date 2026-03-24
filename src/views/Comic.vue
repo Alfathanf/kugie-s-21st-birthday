@@ -2,7 +2,7 @@
   <section class="screen comic-screen">
     <!-- <button class="back-btn top" @click="goBack">← Back to Menu</button> -->
     <div class="comic-header">
-      <h2>💌Comic Strip</h2>
+      <h2>Comic</h2>
     </div>
     <div class="comic-container">
       <div class="comic-frames">

@@ -6,7 +6,7 @@
       
       <!-- IDLE -->
       <div v-if="mode === 'idle'" class="idle-message">
-        <p>Ready to capture a memory? 📷</p>
+        <p>Aku gabisa lihat fotonya, kecuali kalo kamu kasih ke aku hihi</p>
       </div>
 
       <!-- CAMERA -->
@@ -46,7 +46,7 @@
             💾 Save Photo
       </button>
 
-      <button @click="goBack" class="btn-back">← Back</button>
+      <button @click="goBack">More Gifttts!!!!!</button>
     </div>
   </section>
 </template>

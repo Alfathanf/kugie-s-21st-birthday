@@ -1,6 +1,6 @@
 <template>
-  <section class="screen crossword-screen">
-    <h2 class="title">Romantic Crossword</h2>
+  <section class="screen game-screen">
+    <h2>Complete the Crossword Puzzle to Get Your Gift! (harusnya bisa sih ya)</h2>
 
     <!-- GRID -->
     <div class="grid-shell">
@@ -29,8 +29,8 @@
 
     <!-- ACTION -->
     <div class="actions">
-      <button class="back-btn" @click="checkAnswers">Check</button>
-      <button class="back-btn" @click="goBack">← Back</button>
+      <button class="back-btn" @click="checkAnswers">Check Answers</button>
+      <button class="back-btn" @click="goBack">More Giftsssss!!!!!</button>
     </div>
 
     <p class="feedback" v-if="feedback">{{ feedback }}</p>
@@ -38,9 +38,9 @@
     <!-- MODAL -->
     <div v-if="showSuccess" class="modal-layer">
       <div class="modal-content">
-        <h2>🎉 Perfect! 🎉</h2>
-        <p>You solved the crossword ❤️</p>
-        <button @click="goToSurprise">Open Your Surprise 💌</button>
+        <h2>🎉 GOKILLLL 🎉</h2>
+        <p>You solved the crossword, good jobbb sayangg ❤️</p>
+        <button @click="goToSurprise">Your Gift! 🎁</button>
       </div>
     </div>
   </section>
@@ -127,7 +127,7 @@ function checkAnswers() {
     showSuccess.value = true
     feedback.value = ''
   } else {
-    feedback.value = 'Still not correct 😢 try again!'
+    feedback.value = 'tetttt totttt! coba cek lagi clue nya, semangatttt!'
   }
 }
 

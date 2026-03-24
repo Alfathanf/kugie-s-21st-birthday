@@ -1,11 +1,14 @@
 <template>
   <section class="screen invitation-screen">
     <div class="invite-card">
+      <div class="invite-header">
+        <h1>💌 INVITATION LETTER 💌</h1>
         <img 
   src="/assets/images/invitation.png" 
   alt="Invitation Card" 
   class="invite-image"
 />
+      </div>
 
       <div class="invite-action-row">
         <button class="btn-accept" @click="acceptInvite">
@@ -85,7 +88,7 @@ function moveReject(e) {
   let moveDistance = distance < 120 ? 180 : 100
 
   let moveX = dx * moveDistance
-  let moveY = dy * moveDistance
+  let moveY = -Math.abs(dy * moveDistance)
 
   /* 🔥 batas biar nggak over kabur */
   const MAX_OFFSET = 160
@@ -126,8 +129,8 @@ function moveReject(e) {
   width: 100%;
   max-width: 420px; /* biar ga kegedean */
   border-radius: 16px;
-  background: white;
-  padding: 10px;
+  /* background: white; */
+  /* padding: 10px; */
 
   box-shadow: 0 10px 30px rgba(255, 140, 199, 0.3);
 
@@ -159,7 +162,7 @@ function moveReject(e) {
   margin-bottom: 8px;
   background: linear-gradient(120deg, #ff6b9d, #c44569);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* -webkit-text-fill-color: transparent; */
   font-weight: 700;
 }
 
