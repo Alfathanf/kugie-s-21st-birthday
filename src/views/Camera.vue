@@ -29,10 +29,6 @@
           <!-- 🔥 FRAME DI ATAS -->
           <img src="/assets/images/polaroid_frame.png" class="polaroid-frame-image" />
 
-          <button @click="downloadPhoto" class="btn-primary save-btn">
-            💾 Save Photo
-          </button>
-
         </div>
       </div>
     </div>
@@ -50,6 +46,10 @@
       <button v-if="mode === 'polaroid'" @click="retake" class="btn-secondary">
         Retake
       </button>
+
+      <button v-if="mode === 'polaroid'" @click="downloadPhoto" class="btn-primary save-btn">
+            💾 Save Photo
+          </button>
 
       <button @click="goBack" class="btn-back">← Back</button>
     </div>
