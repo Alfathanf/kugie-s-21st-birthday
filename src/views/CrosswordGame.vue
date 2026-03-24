@@ -1,6 +1,6 @@
 <template>
   <section class="screen crossword-screen">
-    <h2 class="title">🧩 Romantic Crossword</h2>
+    <h2 class="title">Romantic Crossword</h2>
 
     <!-- GRID -->
     <div class="grid-shell">
@@ -29,8 +29,8 @@
 
     <!-- ACTION -->
     <div class="actions">
-      <button class="btn-primary" @click="checkAnswers">Check</button>
-      <button class="btn-secondary" @click="goBack">← Back</button>
+      <button class="back-btn" @click="checkAnswers">Check</button>
+      <button class="back-btn" @click="goBack">← Back</button>
     </div>
 
     <p class="feedback" v-if="feedback">{{ feedback }}</p>
@@ -159,7 +159,7 @@ function goBack() {
 
 .grid-row {
   display: grid;
-  grid-template-columns: repeat(10, 40px);
+  grid-template-columns: repeat(9, 40px);
   gap: 5px;
 }
 

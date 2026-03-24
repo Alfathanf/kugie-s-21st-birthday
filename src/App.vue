@@ -37,6 +37,6 @@ function heartTrail(event) {
   pointerTimer.value = setTimeout(() => {
     clearTimeout(pointerTimer.value);
     pointerTimer.value = null;
-  }, 70);
+  }, 7);
 }
 </script>

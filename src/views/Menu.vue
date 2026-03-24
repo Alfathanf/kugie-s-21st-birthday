@@ -2,47 +2,46 @@
   <section class="screen menu-screen">
     <div class="menu-container">
       <h2 class="menu-title">✨ Choose Your Gift ✨</h2>
+
       <div class="gift-grid">
-        <button class="gift-box" @click="navigate('comic')" title="Love Letter">
-          <div class="gift-image-container">
-            <img src="/assets/images/gift1.png" alt="Letter" />
-            <span class="gift-emoji">💌</span>
-          </div>
-        </button>
-        <button class="gift-box" @click="navigate('invitation')" title="Invitation">
-          <div class="gift-image-container">
-            <img src="/assets/images/gift2.png" alt="Invitation" />
-            <span class="gift-emoji">❤️</span>
-          </div>
-        </button>
-        <button class="gift-box" @click="navigate('game')" title="Memory Game">
-          <div class="gift-image-container">
-            <img src="/assets/images/gift3.png" alt="Game" />
-            <span class="gift-emoji">🧠</span>
-          </div>
-        </button>
-        <button class="gift-box" @click="navigate('camera')" title="Photo Booth">
-          <div class="gift-image-container">
-            <img src="/assets/images/gift4.png" alt="Camera" />
-            <span class="gift-emoji">📸</span>
-          </div>
-        </button>
-        <button class="gift-box" @click="navigate('crossword')" title="Crossword">
-          <div class="gift-image-container">
-            <img src="/assets/images/gift5.png" alt="Crossword" />
-            <span class="gift-emoji">🧩</span>
-          </div>
-        </button>
+        
+        <!-- ITEM 1 -->
+        <div class="gift-item" @click="navigate('comic')">
+          <img src="/assets/images/gift.png" alt="Letter" />
+        </div>
+
+        <!-- ITEM 2 -->
+        <div class="gift-item" @click="navigate('invitation')">
+          <img src="/assets/images/gift.png" alt="Invitation" />
+        </div>
+
+        <!-- ITEM 3 -->
+        <div class="gift-item" @click="navigate('game')">
+          <img src="/assets/images/gift.png" alt="Game" />
+        </div>
+
+        <!-- ITEM 4 -->
+        <div class="gift-item" @click="navigate('camera')">
+          <img src="/assets/images/gift.png" alt="Camera" />
+        </div>
+
+        <!-- ITEM 5 -->
+        <div class="gift-item" @click="navigate('crossword')">
+          <img src="/assets/images/gift.png" alt="Crossword" />
+        </div>
+
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
-const router = useRouter();
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 function navigate(route) {
-  router.push({ name: route.charAt(0).toUpperCase() + route.slice(1) });
+  router.push({ name: route.charAt(0).toUpperCase() + route.slice(1) })
 }
 </script>
 
@@ -71,26 +70,35 @@ function navigate(route) {
   background: linear-gradient(120deg, #ff6b9d, #c44569);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
   font-weight: 700;
-  margin-bottom: 8px;
 }
 
 .gift-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 16px;
-  width: min(720px, 90vw);
+  display: flex;
+  justify-content: center;   /* center horizontal */
+  align-items: center;
+  gap: 24px;
+  flex-wrap: nowrap;         /* ❗ penting: biar ga turun baris */
+  width: 100%;  
 }
 
-.gift-box {
+/* 🔥 ITEM = PURE IMAGE CLICKABLE */
+.gift-item {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   animation: scaleInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  transition: transform 0.25s ease;
 }
 
-.gift-box:nth-child(1) { animation-delay: 0.1s; }
-.gift-box:nth-child(2) { animation-delay: 0.2s; }
-.gift-box:nth-child(3) { animation-delay: 0.3s; }
-.gift-box:nth-child(4) { animation-delay: 0.4s; }
+/* delay animasi */
+.gift-item:nth-child(1) { animation-delay: 0.1s; }
+.gift-item:nth-child(2) { animation-delay: 0.2s; }
+.gift-item:nth-child(3) { animation-delay: 0.3s; }
+.gift-item:nth-child(4) { animation-delay: 0.4s; }
+.gift-item:nth-child(5) { animation-delay: 0.5s; }
 
 @keyframes scaleInUp {
   from {
@@ -103,22 +111,33 @@ function navigate(route) {
   }
 }
 
-.gift-image-container img {
-  width: 70px;
-  height: 70px;
+/* IMAGE */
+.gift-item img {
+  width: 90px;
+  height: 90px;
   object-fit: contain;
   transition: transform 0.3s ease;
 }
 
+/* HOVER EFFECT 🔥 */
+.gift-item:hover img {
+  transform: scale(1.15) rotate(-5deg);
+}
+
+.gift-item:active img {
+  transform: scale(0.95);
+}
+
+/* EMOJI FLOAT */
 .gift-emoji {
   position: absolute;
-  font-size: 26px;
+  font-size: 28px;
   animation: floatEmoji 2s ease-in-out infinite;
+  pointer-events: none;
 }
 
 @keyframes floatEmoji {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  50% { transform: translateY(-10px); }
 }
 </style>
-

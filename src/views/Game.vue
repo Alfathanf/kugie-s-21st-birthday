@@ -22,9 +22,6 @@
     <!-- 🎉 MODAL -->
     <div v-if="state.completed" class="modal-layer">
       <div class="modal-content celebration">
-        <div class="confetti-container">
-          <span v-for="i in 20" :key="i" class="confetti">🎉</span>
-        </div>
 
         <h2>🎉 You Did It! 🎉</h2>
         <p>You matched all the pairs! ❤️</p>
