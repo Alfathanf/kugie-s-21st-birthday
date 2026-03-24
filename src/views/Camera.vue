@@ -11,35 +11,26 @@
 
       <!-- CAMERA -->
       <div v-if="mode === 'camera'" class="camera-window">
-
-        <!-- FRAME -->
+        <video ref="videoRef" autoplay muted playsinline class="video-feed"></video>
         <img src="/assets/images/camera_frame.png" class="frame-overlay" />
-
-        <!-- VIDEO AREA (lubang frame) -->
-        <div class="camera-inner">
-          <video ref="videoRef" autoplay muted playsinline class="video-feed"></video>
-        </div>
-
       </div>
 
       <!-- POLAROID -->
       <div v-if="mode === 'polaroid'" class="polaroid-window">
         <div class="polaroid-frame-wrapper">
-
           <img src="/assets/images/polaroid_frame.png" class="polaroid-frame-image" />
 
-          <img 
-            v-if="capturedImage" 
-            :src="capturedImage" 
-            class="polaroid-photo" 
+          <img
+            v-if="capturedImage"
+            :src="capturedImage"
+            class="polaroid-photo"
           />
-
         </div>
       </div>
 
     </div>
 
-    <!-- CONTROLS -->
+    <!-- BUTTON -->
     <div class="camera-controls">
       <button v-if="mode === 'idle'" @click="openCamera" class="btn-primary">
         📷 Open Camera
@@ -49,22 +40,23 @@
         ✨ Capture
       </button>
 
+      <button v-if="mode === 'polaroid'" @click="downloadPhoto" class="btn-secondary">
+        💾 Download
+      </button>
+
       <button v-if="mode === 'polaroid'" @click="retake" class="btn-secondary">
         🔄 Retake
       </button>
 
-      <button v-if="mode === 'polaroid'" @click="downloadPhoto" class="btn-primary">
-        💾 Save Photo
+      <button @click="goBack" class="btn-back">
+        ← Back
       </button>
-
-      <button @click="goBack" class="btn-back">← Back</button>
     </div>
-
   </section>
 </template>
 
 <script setup>
-import { ref, nextTick, onBeforeUnmount } from 'vue'
+import { ref, onBeforeUnmount, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -76,20 +68,15 @@ const capturedImage = ref('')
 
 const constraints = {
   video: {
-    facingMode: 'user',
-    width: { ideal: 640 },
-    height: { ideal: 800 }
+    facingMode: 'user'
   }
 }
 
-// OPEN CAMERA
+// ================= CAMERA =================
 async function openCamera() {
   try {
-    stopStream()
-
     const stream = await navigator.mediaDevices.getUserMedia(constraints)
     streamRef.value = stream
-
     mode.value = 'camera'
 
     await nextTick()
@@ -98,39 +85,34 @@ async function openCamera() {
       videoRef.value.srcObject = stream
       await videoRef.value.play()
     }
-
   } catch (err) {
     console.error(err)
-    alert('Camera error 😢')
+    alert('Camera error bro 😭')
   }
 }
 
-// CAPTURE (CROP SESUAI FRAME)
+// ================= CAPTURE =================
 function capturePhoto() {
   const video = videoRef.value
   if (!video) return
 
   const canvas = document.createElement('canvas')
 
-  const vw = video.videoWidth
-  const vh = video.videoHeight
-
-  // 🔥 SAMA DENGAN CSS
-  const cropX = vw * 0.12
-  const cropY = vh * 0.18
-  const cropW = vw * 0.76
-  const cropH = vh * 0.58
-
-  canvas.width = cropW
-  canvas.height = cropH
+  // 🔥 ukuran area layar kamera (SUDAH DI-ADJUST)
+  canvas.width = 370
+  canvas.height = 250
 
   const ctx = canvas.getContext('2d')
 
-  // mirror
+  // mirror fix
   ctx.translate(canvas.width, 0)
   ctx.scale(-1, 1)
 
-  ctx.drawImage(video, cropX, cropY, cropW, cropH, 0, 0, canvas.width, canvas.height)
+  ctx.drawImage(
+    video,
+    0, 0, video.videoWidth, video.videoHeight,
+    0, 0, canvas.width, canvas.height
+  )
 
   capturedImage.value = canvas.toDataURL('image/png')
 
@@ -138,66 +120,37 @@ function capturePhoto() {
   stopStream()
 }
 
-// RETAKE
+// ================= DOWNLOAD =================
+function downloadPhoto() {
+  const link = document.createElement('a')
+  link.href = capturedImage.value
+  link.download = 'photo.png'
+  link.click()
+}
+
+// ================= RETAKE =================
 function retake() {
   capturedImage.value = ''
   openCamera()
 }
 
-// STOP CAMERA
+// ================= STOP =================
 function stopStream() {
   if (streamRef.value) {
     streamRef.value.getTracks().forEach(t => t.stop())
     streamRef.value = null
   }
-  if (videoRef.value) {
-    videoRef.value.srcObject = null
-  }
 }
 
-// DOWNLOAD FOTO + FRAME
-async function downloadPhoto() {
-  if (!capturedImage.value) return
-
-  const frame = new Image()
-  frame.src = '/assets/images/polaroid_frame.png'
-
-  const photo = new Image()
-  photo.src = capturedImage.value
-
-  await Promise.all([
-    new Promise(r => frame.onload = r),
-    new Promise(r => photo.onload = r)
-  ])
-
-  const canvas = document.createElement('canvas')
-  canvas.width = frame.width
-  canvas.height = frame.height
-
-  const ctx = canvas.getContext('2d')
-
-  ctx.drawImage(frame, 0, 0)
-
-  const x = canvas.width * 0.1
-  const y = canvas.height * 0.15
-  const w = canvas.width * 0.8
-  const h = canvas.height * 0.55
-
-  ctx.drawImage(photo, x, y, w, h)
-
-  const link = document.createElement('a')
-  link.download = 'polaroid.png'
-  link.href = canvas.toDataURL()
-  link.click()
-}
-
-// NAV
+// ================= NAV =================
 function goBack() {
   stopStream()
   router.push({ name: 'Menu' })
 }
 
-onBeforeUnmount(stopStream)
+onBeforeUnmount(() => {
+  stopStream()
+})
 </script>
 
 <style scoped>
@@ -208,75 +161,79 @@ onBeforeUnmount(stopStream)
   gap: 20px;
 }
 
-.camera-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #ff6b9d;
-}
-
 .camera-area {
-  width: 100%;
+  min-height: 360px;
   display: grid;
   place-items: center;
 }
 
-/* FRAME SYSTEM */
+/* ================= CAMERA ================= */
+
 .camera-window {
   position: relative;
-  width: 100%;
-  max-width: 420px;
+  width: 520px;
+  max-width: 95vw;
 }
 
-.frame-overlay {
-  width: 100%;
-}
-
-/* 🔥 LUBANG FRAME */
-.camera-inner {
-  position: absolute;
-  top: 18%;
-  left: 12%;
-  width: 76%;
-  height: 58%;
-  overflow: hidden;
-  border-radius: 12px;
-}
-
-/* VIDEO */
+/* 🔥 VIDEO POSITION (SUDAH DI-ADJUST) */
 .video-feed {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+
+  top: 65px;
+  left: 55px;
+
+  width: 370px;
+  height: 250px;
+
   object-fit: cover;
   transform: scaleX(-1);
+  border-radius: 6px;
 }
 
-/* POLAROID */
+/* FRAME */
+.frame-overlay {
+  width: 100%;
+  display: block;
+}
+
+/* ================= POLAROID ================= */
+
 .polaroid-frame-wrapper {
   position: relative;
-  width: 320px;
+  width: 420px;
+  max-width: 90vw;
 }
 
 .polaroid-frame-image {
   width: 100%;
 }
 
+/* 🔥 HASIL FOTO MASUK KE HOLE */
 .polaroid-photo {
   position: absolute;
-  top: 15%;
-  left: 10%;
-  width: 80%;
-  height: 55%;
+
+  top: 95px;
+  left: 45px;
+
+  width: 330px;
+  height: 270px;
+
   object-fit: cover;
+  border-radius: 6px;
 }
 
-/* BUTTON */
+/* ================= BUTTON ================= */
+
 .camera-controls {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
-button {
+.btn-primary,
+.btn-secondary,
+.btn-back {
   padding: 10px 16px;
   border-radius: 10px;
   border: none;
@@ -289,7 +246,7 @@ button {
 }
 
 .btn-secondary {
-  background: #ffc0cb;
+  background: #ffc9de;
 }
 
 .btn-back {
