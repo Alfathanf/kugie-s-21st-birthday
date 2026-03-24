@@ -25,18 +25,18 @@ function heartTrail(event) {
   if (pointerTimer.value) return;
   const heart = document.createElement('div');
   heart.className = 'heart';
-  heart.textContent = '💝';
+  heart.textContent = '💖';
   heart.style.left = `${event.pageX}px`;
   heart.style.top = `${event.pageY}px`;
   document.body.appendChild(heart);
 
   setTimeout(() => {
     heart.remove();
-  }, 900);
+  }, 2005);
 
   pointerTimer.value = setTimeout(() => {
     clearTimeout(pointerTimer.value);
     pointerTimer.value = null;
-  }, 7);
+  }, 28);
 }
 </script>

@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, ref } from 'vue';
+import { onBeforeUnmount, ref, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -54,12 +54,23 @@ const constraints = {
 
 async function openCamera() {
   try {
+    stopStream(); // pastikan bersih dulu
+
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
     streamRef.value = stream;
+
     mode.value = 'camera';
+
+    // ⏳ tunggu DOM render
+    await nextTick();
+
     if (videoRef.value) {
       videoRef.value.srcObject = stream;
+
+      // ⚠️ penting untuk HP browser
+      await videoRef.value.play();
     }
+
   } catch (err) {
     console.error('Camera error:', err);
     alert('Unable to access camera. Please check permissions.');
@@ -68,26 +79,43 @@ async function openCamera() {
 
 function capturePhoto() {
   if (!videoRef.value) return;
+
   const video = videoRef.value;
 
   const canvas = document.createElement('canvas');
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
+  canvas.width = video.videoWidth || 640;
+  canvas.height = video.videoHeight || 800;
+
   const ctx = canvas.getContext('2d');
-  
-  // Add flash effect
+
   addFlashEffect();
-  
-  ctx.drawImage(video, 0, 0);
+
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
   capturedImage.value = canvas.toDataURL('image/png');
+
   mode.value = 'polaroid';
 
   stopStream();
 }
 
+function retake() {
+  capturedImage.value = '';
+  openCamera(); // 🔥 langsung nyalakan lagi
+}
+
+function stopStream() {
+  if (streamRef.value) {
+    streamRef.value.getTracks().forEach(track => track.stop());
+    streamRef.value = null;
+  }
+
+  if (videoRef.value) {
+    videoRef.value.srcObject = null;
+  }
+}
+
 function addFlashEffect() {
   const flash = document.createElement('div');
-  flash.className = 'flash';
   flash.style.cssText = `
     position: fixed;
     inset: 0;
@@ -98,18 +126,6 @@ function addFlashEffect() {
   `;
   document.body.appendChild(flash);
   setTimeout(() => flash.remove(), 400);
-}
-
-function retake() {
-  capturedImage.value = '';
-  mode.value = 'idle';
-}
-
-function stopStream() {
-  if (streamRef.value) {
-    streamRef.value.getTracks().forEach(track => track.stop());
-    streamRef.value = null;
-  }
 }
 
 function goBack() {
