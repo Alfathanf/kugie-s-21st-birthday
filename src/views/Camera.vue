@@ -207,8 +207,8 @@ onBeforeUnmount(() => stopStream())
 /* 🔥 POSISI VIDEO (SUDAH PAS KE FRAME) */
 .video-feed {
   position: absolute;
-  top: 15%;     /* SESUAIKAN DENGAN HOLE FRAME */
-  left: 10%;
+  top: 9%;     /* SESUAIKAN DENGAN HOLE FRAME */
+  left: 5%;
   width: 70%;
   height: 100%;
   object-fit: cover;
