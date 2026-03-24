@@ -110,14 +110,13 @@ function capturePhoto() {
 
   ctx.drawImage(
   video,
-  video.videoWidth * 0.2,  // crop kiri
-  video.videoHeight * 0.1, // crop atas
-  video.videoWidth * 1,  // lebar crop
-  video.videoHeight * 1, // tinggi crop
+  0, 0,
+  video.videoWidth,
+  video.videoHeight,
   0, 0,
   canvas.width,
   canvas.height
-)
+) 
 
   capturedImage.value = canvas.toDataURL('image/png')
 
@@ -147,10 +146,10 @@ async function downloadPhoto() {
   // 🔥 FOTO DULU (BACKGROUND)
   ctx.drawImage(
   photo,
-  frame.width * 0.103,   // left
-  frame.height * 0.185,  // top
-  frame.width * 0.793,   // width
-  frame.height * 0.628   // height
+  frame.width * 0.118,  // left
+  frame.height * 0.191, // top
+  frame.width * 0.764,  // width
+  frame.height * 0.618  // height
 )
 
   // 🔥 FRAME DI ATAS
@@ -244,11 +243,11 @@ onBeforeUnmount(() => stopStream())
 .polaroid-photo {
   position: absolute;
 
-  top: 18.5%;
-  left: 10.3%;
+  top: 19.1%;
+  left: 11.8%;
 
-  width: 79.3%;
-  height: 62.8%;
+  width: 76.4%;
+  height: 61.8%;
 
   object-fit: cover;
 
