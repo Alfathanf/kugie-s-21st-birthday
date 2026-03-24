@@ -16,18 +16,15 @@
       </div>
 
       <!-- POLAROID -->
-      <div v-if="mode === 'polaroid'" class="polaroid-window">
-
+      <div v-if="mode === 'polaroid'" class="camera-window">
           <!-- 🔥 FOTO DULU (DI BELAKANG) -->
           <img 
             v-if="capturedImage" 
             :src="capturedImage" 
-            class="polaroid-photo" 
+            class="video-feed" 
           />
-
           <!-- 🔥 FRAME DI ATAS -->
-          <img src="/assets/images/polaroid_frame.png" class="polaroid-frame-image" />
-
+          <img src="/assets/images/polaroid_frame.png" class="frame-overlay" />
       </div>
     </div>
 
@@ -146,8 +143,8 @@ async function downloadPhoto() {
   photo,
   frame.width * 0.05,  // left
   frame.height * 0.05, // top
-  frame.width * 0.62,  // width
-  frame.height * 0.8  // height
+  frame.width * 1,  // width
+  frame.height * 1  // height
 )
 
   // 🔥 FRAME DI ATAS
@@ -213,8 +210,8 @@ onBeforeUnmount(() => stopStream())
   top: 1%;
   left: 1%;
 
-  width: 62%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
 
   object-fit: cover;
   z-index: 1;
@@ -244,8 +241,8 @@ onBeforeUnmount(() => stopStream())
   top: 5%;
   left: 5%;
 
-  width: 62%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
 
   object-fit: cover;
 
