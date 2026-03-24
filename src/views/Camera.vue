@@ -3,6 +3,7 @@
     <h2 class="camera-title">📸 Digicam 📸</h2>
 
     <div class="camera-area">
+      
       <!-- IDLE -->
       <div v-if="mode === 'idle'" class="idle-message">
         <p>Ready to capture a memory? 📷</p>
@@ -17,12 +18,21 @@
       <!-- POLAROID -->
       <div v-if="mode === 'polaroid'" class="polaroid-window">
         <div class="polaroid-frame-wrapper">
-          <img src="/assets/images/polaroid_frame.png" class="polaroid-frame-image" />
-          <img v-if="capturedImage" :src="capturedImage" class="polaroid-photo" />
 
-          <button @click="downloadPhoto" class="btn-primary">
+          <!-- 🔥 FOTO DULU (DI BELAKANG) -->
+          <img 
+            v-if="capturedImage" 
+            :src="capturedImage" 
+            class="polaroid-photo" 
+          />
+
+          <!-- 🔥 FRAME DI ATAS -->
+          <img src="/assets/images/polaroid_frame.png" class="polaroid-frame-image" />
+
+          <button @click="downloadPhoto" class="btn-primary save-btn">
             💾 Save Photo
           </button>
+
         </div>
       </div>
     </div>
@@ -129,9 +139,7 @@ async function downloadPhoto() {
 
   const ctx = canvas.getContext('2d')
 
-  ctx.drawImage(frame, 0, 0)
-
-  // 🔥 posisi PAS di hole polaroid
+  // 🔥 FOTO DULU (BACKGROUND)
   ctx.drawImage(
     photo,
     frame.width * 0.12,
@@ -139,6 +147,9 @@ async function downloadPhoto() {
     frame.width * 0.76,
     frame.height * 0.52
   )
+
+  // 🔥 FRAME DI ATAS
+  ctx.drawImage(frame, 0, 0)
 
   const link = document.createElement('a')
   link.download = 'polaroid.png'
@@ -221,11 +232,7 @@ onBeforeUnmount(() => stopStream())
   width: 420px;
 }
 
-.polaroid-frame-image {
-  width: 100%;
-}
-
-/* 🔥 FOTO MASUK KE HOLE */
+/* 🔥 FOTO (DI BELAKANG) */
 .polaroid-photo {
   position: absolute;
 
@@ -236,6 +243,23 @@ onBeforeUnmount(() => stopStream())
   height: 220px;
 
   object-fit: cover;
+
+  z-index: 1; /* 🔥 LEBIH RENDAH */
+}
+
+/* 🔥 FRAME (DI DEPAN) */
+.polaroid-frame-image {
+  width: 100%;
+  position: relative;
+  z-index: 2; /* 🔥 LEBIH TINGGI */
+}
+
+/* tombol biar ga ketutup */
+.save-btn {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* ================= BUTTON ================= */
