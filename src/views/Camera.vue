@@ -99,8 +99,8 @@ function capturePhoto() {
   const canvas = document.createElement('canvas')
 
   // 🔥 ukuran area layar kamera (sudah disesuaikan)
-  canvas.width = 370
-  canvas.height = 275
+  canvas.width = video.videoWidth
+  canvas.height = video.videoHeight
 
   const ctx = canvas.getContext('2d')
 
