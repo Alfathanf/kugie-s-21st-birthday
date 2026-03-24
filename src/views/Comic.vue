@@ -1,6 +1,6 @@
 <template>
   <section class="screen comic-screen">
-    <button class="back-btn top" @click="goBack">← Back to Menu</button>
+    <!-- <button class="back-btn top" @click="goBack">← Back to Menu</button> -->
     <div class="comic-header">
       <h2>💌Comic Strip</h2>
     </div>

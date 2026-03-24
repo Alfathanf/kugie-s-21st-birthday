@@ -11,13 +11,13 @@
         </div>
 
         <!-- ITEM 2 -->
-        <div class="gift-item" @click="navigate('camera')">
-          <img src="/assets/images/gift.png" alt="Camera" />
+        <div class="gift-item" @click="navigate('crossword')">
+          <img src="/assets/images/gift.png" alt="Crossword" />
         </div>
 
         <!-- ITEM 3 -->
-        <div class="gift-item" @click="navigate('crossword')">
-          <img src="/assets/images/gift.png" alt="Crossword" />
+        <div class="gift-item" @click="navigate('camera')">
+          <img src="/assets/images/gift.png" alt="Camera" />
         </div>
 
       </div>

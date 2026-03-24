@@ -1,190 +1,203 @@
 <template>
   <section class="screen camera-screen">
     <h2 class="camera-title">📸 Digicam 📸</h2>
+
     <div class="camera-area">
+
+      <!-- IDLE -->
       <div v-if="mode === 'idle'" class="idle-message">
         <p>Ready to capture a memory? 📷</p>
       </div>
 
+      <!-- CAMERA -->
       <div v-if="mode === 'camera'" class="camera-window">
-        <video ref="videoRef" autoplay muted playsinline class="video-feed"></video>
-        <img src="/assets/images/camera_frame.png" alt="Frame" class="frame-overlay" />
+
+        <!-- FRAME -->
+        <img src="/assets/images/camera_frame.png" class="frame-overlay" />
+
+        <!-- VIDEO AREA (lubang frame) -->
+        <div class="camera-inner">
+          <video ref="videoRef" autoplay muted playsinline class="video-feed"></video>
+        </div>
+
       </div>
 
+      <!-- POLAROID -->
       <div v-if="mode === 'polaroid'" class="polaroid-window">
         <div class="polaroid-frame-wrapper">
-          <img src="/assets/images/polaroid_frame.png" alt="Polaroid Frame" class="polaroid-frame-image" />
-          <img v-if="capturedImage" :src="capturedImage" alt="Captured" class="polaroid-photo" />
-          <button 
-  v-if="mode === 'polaroid'" 
-  @click="downloadPhoto" 
-  class="btn-primary"
->
-  💾 Save Photo
-</button>
+
+          <img src="/assets/images/polaroid_frame.png" class="polaroid-frame-image" />
+
+          <img 
+            v-if="capturedImage" 
+            :src="capturedImage" 
+            class="polaroid-photo" 
+          />
+
         </div>
       </div>
+
     </div>
 
+    <!-- CONTROLS -->
     <div class="camera-controls">
       <button v-if="mode === 'idle'" @click="openCamera" class="btn-primary">
         📷 Open Camera
       </button>
-      <button v-if="mode === 'camera'" @click="capturePhoto" class="btn-primary btn-capture">
-        ✨ Capture 📸
+
+      <button v-if="mode === 'camera'" @click="capturePhoto" class="btn-primary">
+        ✨ Capture
       </button>
+
       <button v-if="mode === 'polaroid'" @click="retake" class="btn-secondary">
         🔄 Retake
       </button>
-      <button @click="goBack" class="btn-back">← Back to Menu</button>
+
+      <button v-if="mode === 'polaroid'" @click="downloadPhoto" class="btn-primary">
+        💾 Save Photo
+      </button>
+
+      <button @click="goBack" class="btn-back">← Back</button>
     </div>
+
   </section>
 </template>
 
 <script setup>
-import { onBeforeUnmount, ref, nextTick } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, nextTick, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
-const mode = ref('idle');
-const videoRef = ref(null);
-const streamRef = ref(null);
-const capturedImage = ref('');
+const router = useRouter()
 
-const constraints = { 
-  video: { 
-    facingMode: 'user', 
-    width: { ideal: 640 }, 
-    height: { ideal: 800 } 
-  } 
-};
+const mode = ref('idle')
+const videoRef = ref(null)
+const streamRef = ref(null)
+const capturedImage = ref('')
 
+const constraints = {
+  video: {
+    facingMode: 'user',
+    width: { ideal: 640 },
+    height: { ideal: 800 }
+  }
+}
+
+// OPEN CAMERA
 async function openCamera() {
   try {
-    stopStream(); // pastikan bersih dulu
+    stopStream()
 
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    streamRef.value = stream;
+    const stream = await navigator.mediaDevices.getUserMedia(constraints)
+    streamRef.value = stream
 
-    mode.value = 'camera';
+    mode.value = 'camera'
 
-    // ⏳ tunggu DOM render
-    await nextTick();
+    await nextTick()
 
     if (videoRef.value) {
-      videoRef.value.srcObject = stream;
-
-      // ⚠️ penting untuk HP browser
-      await videoRef.value.play();
+      videoRef.value.srcObject = stream
+      await videoRef.value.play()
     }
 
   } catch (err) {
-    console.error('Camera error:', err);
-    alert('Unable to access camera. Please check permissions.');
+    console.error(err)
+    alert('Camera error 😢')
   }
 }
 
+// CAPTURE (CROP SESUAI FRAME)
 function capturePhoto() {
-  if (!videoRef.value) return;
+  const video = videoRef.value
+  if (!video) return
 
-  const video = videoRef.value;
+  const canvas = document.createElement('canvas')
 
-  const canvas = document.createElement('canvas');
-  canvas.width = video.videoWidth || 640;
-  canvas.height = video.videoHeight || 800;
+  const vw = video.videoWidth
+  const vh = video.videoHeight
 
-  const ctx = canvas.getContext('2d');
+  // 🔥 SAMA DENGAN CSS
+  const cropX = vw * 0.12
+  const cropY = vh * 0.18
+  const cropW = vw * 0.76
+  const cropH = vh * 0.58
 
-  addFlashEffect();
+  canvas.width = cropW
+  canvas.height = cropH
 
-  // 🔥 mirror hasil capture juga
-  ctx.translate(canvas.width, 0);
-  ctx.scale(-1, 1);
+  const ctx = canvas.getContext('2d')
 
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  // mirror
+  ctx.translate(canvas.width, 0)
+  ctx.scale(-1, 1)
 
-  capturedImage.value = canvas.toDataURL('image/png');
+  ctx.drawImage(video, cropX, cropY, cropW, cropH, 0, 0, canvas.width, canvas.height)
 
-  mode.value = 'polaroid';
+  capturedImage.value = canvas.toDataURL('image/png')
 
-  stopStream();
+  mode.value = 'polaroid'
+  stopStream()
 }
 
+// RETAKE
 function retake() {
-  capturedImage.value = '';
-  openCamera(); // 🔥 langsung nyalakan lagi
+  capturedImage.value = ''
+  openCamera()
 }
 
+// STOP CAMERA
 function stopStream() {
   if (streamRef.value) {
-    streamRef.value.getTracks().forEach(track => track.stop());
-    streamRef.value = null;
+    streamRef.value.getTracks().forEach(t => t.stop())
+    streamRef.value = null
   }
-
   if (videoRef.value) {
-    videoRef.value.srcObject = null;
+    videoRef.value.srcObject = null
   }
 }
 
-function addFlashEffect() {
-  const flash = document.createElement('div');
-  flash.style.cssText = `
-    position: fixed;
-    inset: 0;
-    background: white;
-    pointer-events: none;
-    z-index: 1000;
-    animation: flashBurst 0.4s ease-out;
-  `;
-  document.body.appendChild(flash);
-  setTimeout(() => flash.remove(), 400);
-}
-
-function goBack() {
-  stopStream();
-  router.push({ name: 'Menu' });
-}
-
-onBeforeUnmount(() => {
-  stopStream();
-});
+// DOWNLOAD FOTO + FRAME
 async function downloadPhoto() {
-  if (!capturedImage.value) return;
+  if (!capturedImage.value) return
 
-  const frame = new Image();
-  frame.src = '/assets/images/polaroid_frame.png';
+  const frame = new Image()
+  frame.src = '/assets/images/polaroid_frame.png'
 
-  const photo = new Image();
-  photo.src = capturedImage.value;
+  const photo = new Image()
+  photo.src = capturedImage.value
 
   await Promise.all([
-    new Promise(res => frame.onload = res),
-    new Promise(res => photo.onload = res)
-  ]);
+    new Promise(r => frame.onload = r),
+    new Promise(r => photo.onload = r)
+  ])
 
-  const canvas = document.createElement('canvas');
-  canvas.width = frame.width;
-  canvas.height = frame.height;
+  const canvas = document.createElement('canvas')
+  canvas.width = frame.width
+  canvas.height = frame.height
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d')
 
-  // 🔥 gambar frame dulu
-  ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(frame, 0, 0)
 
-  // 🔥 posisi foto di dalam frame (adjust sesuai asset kamu)
-  const photoX = canvas.width * 0.1;
-  const photoY = canvas.height * 0.15;
-  const photoWidth = canvas.width * 0.8;
-  const photoHeight = canvas.height * 0.55;
+  const x = canvas.width * 0.1
+  const y = canvas.height * 0.15
+  const w = canvas.width * 0.8
+  const h = canvas.height * 0.55
 
-  ctx.drawImage(photo, photoX, photoY, photoWidth, photoHeight);
+  ctx.drawImage(photo, x, y, w, h)
 
-  // 🔥 convert ke file
-  const link = document.createElement('a');
-  link.download = 'polaroid-photo.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
+  const link = document.createElement('a')
+  link.download = 'polaroid.png'
+  link.href = canvas.toDataURL()
+  link.click()
 }
+
+// NAV
+function goBack() {
+  stopStream()
+  router.push({ name: 'Menu' })
+}
+
+onBeforeUnmount(stopStream)
 </script>
 
 <style scoped>
@@ -192,121 +205,59 @@ async function downloadPhoto() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 20px;
-  animation: fadeInDown 0.5s ease;
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .camera-title {
   font-size: 24px;
-  background: linear-gradient(120deg, #ff6b9d, #c44569);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 700;
-  margin-bottom: 8px;
+  font-weight: bold;
+  color: #ff6b9d;
 }
 
 .camera-area {
-  width: min(540px, 90vw);
+  width: 100%;
   display: grid;
   place-items: center;
-  min-height: 360px;
-  animation: slideUp 0.4s ease;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.idle-message {
-  text-align: center;
-  color: #9f2d5f;
-  font-size: 16px;
-  font-weight: 500;
-  animation: fadeIn 0.6s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.camera-window,
-.polaroid-window {
+/* FRAME SYSTEM */
+.camera-window {
   position: relative;
   width: 100%;
-  height: auto;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(255, 140, 199, 0.2);
-}
-
-.video-feed {
-  width: 100%;
-  border-radius: 16px;
-  display: block;
-  background: #f5e6f0;
-  object-fit: cover;
-
-  /* 🔥 mirror effect */
-  transform: scaleX(-1);
-}
-
-.frame-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  border-radius: 16px;
-}
-
-.polaroid-window {
-  animation: polaroidAppear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes polaroidAppear {
-  from {
-    opacity: 0;
-    transform: scale(0.85) rotateZ(-5deg);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) rotateZ(0);
-  }
-}
-
-.polaroid-frame-wrapper {
-  position: relative;
-  width: min(420px, 90vw);
   max-width: 420px;
 }
 
-.polaroid-frame-image {
-  display: block;
+.frame-overlay {
   width: 100%;
-  height: auto;
-  object-fit: contain;
+}
+
+/* 🔥 LUBANG FRAME */
+.camera-inner {
+  position: absolute;
+  top: 18%;
+  left: 12%;
+  width: 76%;
+  height: 58%;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+/* VIDEO */
+.video-feed {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+/* POLAROID */
+.polaroid-frame-wrapper {
+  position: relative;
+  width: 320px;
+}
+
+.polaroid-frame-image {
+  width: 100%;
 }
 
 .polaroid-photo {
@@ -316,102 +267,32 @@ async function downloadPhoto() {
   width: 80%;
   height: 55%;
   object-fit: cover;
-  border-radius: 8px;
 }
 
-.polaroid-frame {
-  border: 14px solid #fff;
-  background: #fff;
-  padding: 12px;
-  border-radius: 8px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18), 2px 8px 16px rgba(0, 0, 0, 0.1);
-  position: relative;
-  transform: rotateZ(-2deg);
-}
-
-.polaroid-photo {
-  width: 100%;
-  border-radius: 4px;
-  display: block;
-}
-
-.polaroid-frame::after {
-  content: '';
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  height: 20px;
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 50%;
-  filter: blur(8px);
-}
-
+/* BUTTON */
 .camera-controls {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 16px;
 }
 
-.btn-primary,
-.btn-secondary,
-.btn-back {
-  padding: 12px 20px;
+button {
+  padding: 10px 16px;
+  border-radius: 10px;
   border: none;
-  border-radius: 14px;
-  font-size: 15px;
-  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 6px 16px rgba(255, 140, 199, 0.3);
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #ff8fc7, #ff6b9d);
-  color: #fff;
-}
-
-.btn-primary:hover,
-.btn-secondary:hover,
-.btn-back:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 12px 28px rgba(255, 107, 157, 0.5);
-}
-
-.btn-capture {
-  min-width: 140px;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 6px 16px rgba(255, 140, 199, 0.3);
-  }
-  50% {
-    box-shadow: 0 8px 24px rgba(255, 140, 199, 0.6);
-  }
+  background: #ff6b9d;
+  color: white;
 }
 
 .btn-secondary {
-  background: linear-gradient(135deg, #ffc9de, #ffb3d9);
-  color: #d81f55;
+  background: #ffc0cb;
 }
 
 .btn-back {
-  background: linear-gradient(135deg, #e6c7d8, #d9afc8);
-  color: #6b4c66;
-}
-
-@keyframes flashBurst {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+  background: #ddd;
 }
 </style>
-
