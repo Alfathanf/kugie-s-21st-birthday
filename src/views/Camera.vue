@@ -146,12 +146,12 @@ async function downloadPhoto() {
 
   // 🔥 FOTO DULU (BACKGROUND)
   ctx.drawImage(
-    photo,
-    frame.width * 0.09,
-    frame.height * 0.05,
-    frame.width * 0.70,
-    frame.height * 1
-  )
+  photo,
+  frame.width * 0.103,   // left
+  frame.height * 0.185,  // top
+  frame.width * 0.793,   // width
+  frame.height * 0.628   // height
+)
 
   // 🔥 FRAME DI ATAS
   ctx.drawImage(frame, 0, 0)
@@ -212,14 +212,17 @@ onBeforeUnmount(() => stopStream())
 /* 🔥 POSISI VIDEO (SUDAH PAS KE FRAME) */
 .video-feed {
   position: absolute;
-  top: 9%;     /* SESUAIKAN DENGAN HOLE FRAME */
-  left: 5%;
-  width: 70%;
-  height: 100%;
+
+  top: 10%;
+  left: 19%;
+
+  width: 62%;
+  height: 80%;
+
   object-fit: cover;
   z-index: 1;
 
-  transform: scaleX(-1); /* mirror */
+  transform: scaleX(-1);
 }
 
 /* FRAME */
@@ -241,11 +244,11 @@ onBeforeUnmount(() => stopStream())
 .polaroid-photo {
   position: absolute;
 
-  top: 9%;
-  left: 5%;
+  top: 18.5%;
+  left: 10.3%;
 
-  width: 70%;
-  height: 100%;
+  width: 79.3%;
+  height: 62.8%;
 
   object-fit: cover;
 
@@ -254,7 +257,6 @@ onBeforeUnmount(() => stopStream())
 
 /* 🔥 FRAME (DI DEPAN) */
 .polaroid-frame-image {
-  width: 100%;
   position: relative;
   z-index: 2; /* 🔥 LEBIH TINGGI */
 }
