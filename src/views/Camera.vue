@@ -49,7 +49,7 @@
 
       <button v-if="mode === 'polaroid'" @click="downloadPhoto" class="btn-primary save-btn">
             💾 Save Photo
-          </button>
+      </button>
 
       <button @click="goBack" class="btn-back">← Back</button>
     </div>
