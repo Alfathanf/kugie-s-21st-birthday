@@ -27,7 +27,7 @@
         <p>You matched all the pairs! ❤️</p>
         <p class="completion-message">You're amazing!</p>
 
-        <button @click="goBack">Back to Menu ✨</button>
+        <button @click="goToReward">Get Your Reward 🎁</button>
       </div>
     </div>
   </section>
@@ -126,6 +126,10 @@ const cards = computed(() => state.cards);
 function goBack() {
   initGame(); // reset game biar fresh
   router.push({ name: 'Menu' });
+}
+
+function goToReward() {
+  router.push({ name: 'Invitation' });
 }
 
 // init pertama kali

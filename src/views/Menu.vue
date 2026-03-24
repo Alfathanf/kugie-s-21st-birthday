@@ -6,26 +6,16 @@
       <div class="gift-grid">
         
         <!-- ITEM 1 -->
-        <div class="gift-item" @click="navigate('comic')">
-          <img src="/assets/images/gift.png" alt="Letter" />
-        </div>
-
-        <!-- ITEM 2 -->
-        <div class="gift-item" @click="navigate('invitation')">
-          <img src="/assets/images/gift.png" alt="Invitation" />
-        </div>
-
-        <!-- ITEM 3 -->
         <div class="gift-item" @click="navigate('game')">
           <img src="/assets/images/gift.png" alt="Game" />
         </div>
 
-        <!-- ITEM 4 -->
+        <!-- ITEM 2 -->
         <div class="gift-item" @click="navigate('camera')">
           <img src="/assets/images/gift.png" alt="Camera" />
         </div>
 
-        <!-- ITEM 5 -->
+        <!-- ITEM 3 -->
         <div class="gift-item" @click="navigate('crossword')">
           <img src="/assets/images/gift.png" alt="Crossword" />
         </div>

@@ -25,7 +25,7 @@ Calon Suami Anda Tercinta</p>
 
       <div class="invite-action-row">
         <button class="btn-accept" @click="acceptInvite">
-          Mau dong ❤️
+          mw banget ❤️
         </button>
 
         <button
@@ -35,7 +35,7 @@ Calon Suami Anda Tercinta</p>
           @pointermove="moveReject"
           @touchstart="moveReject"
         >
-          Tak Nak ❌
+          tak nak ❌
         </button>
       </div>
     </div>

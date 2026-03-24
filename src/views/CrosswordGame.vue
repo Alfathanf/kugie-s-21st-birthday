@@ -40,7 +40,7 @@
       <div class="modal-content">
         <h2>🎉 Perfect! 🎉</h2>
         <p>You solved the crossword ❤️</p>
-        <button @click="goBack">Back to Menu</button>
+        <button @click="goToSurprise">Open Your Surprise 💌</button>
       </div>
     </div>
   </section>
@@ -134,6 +134,10 @@ function checkAnswers() {
 // ===== NAV =====
 function goBack() {
   router.push({ name: 'Menu' })
+}
+
+function goToSurprise() {
+  router.push({ name: 'Comic' })
 }
 </script>
 
