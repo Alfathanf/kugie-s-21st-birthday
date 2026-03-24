@@ -17,7 +17,6 @@
 
       <!-- POLAROID -->
       <div v-if="mode === 'polaroid'" class="polaroid-window">
-        <div class="polaroid-frame-wrapper">
 
           <!-- 🔥 FOTO DULU (DI BELAKANG) -->
           <img 
@@ -29,7 +28,6 @@
           <!-- 🔥 FRAME DI ATAS -->
           <img src="/assets/images/polaroid_frame.png" class="polaroid-frame-image" />
 
-        </div>
       </div>
     </div>
 
