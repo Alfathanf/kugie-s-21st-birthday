@@ -15,6 +15,13 @@
         <div class="polaroid-frame-wrapper">
           <img src="/assets/images/polaroid_frame.png" alt="Polaroid Frame" class="polaroid-frame-image" />
           <img v-if="capturedImage" :src="capturedImage" alt="Captured" class="polaroid-photo" />
+          <button 
+  v-if="mode === 'polaroid'" 
+  @click="downloadPhoto" 
+  class="btn-primary"
+>
+  💾 Save Photo
+</button>
         </div>
       </div>
     </div>
@@ -90,7 +97,12 @@ function capturePhoto() {
 
   addFlashEffect();
 
+  // 🔥 mirror hasil capture juga
+  ctx.translate(canvas.width, 0);
+  ctx.scale(-1, 1);
+
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
   capturedImage.value = canvas.toDataURL('image/png');
 
   mode.value = 'polaroid';
@@ -136,6 +148,43 @@ function goBack() {
 onBeforeUnmount(() => {
   stopStream();
 });
+async function downloadPhoto() {
+  if (!capturedImage.value) return;
+
+  const frame = new Image();
+  frame.src = '/assets/images/polaroid_frame.png';
+
+  const photo = new Image();
+  photo.src = capturedImage.value;
+
+  await Promise.all([
+    new Promise(res => frame.onload = res),
+    new Promise(res => photo.onload = res)
+  ]);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = frame.width;
+  canvas.height = frame.height;
+
+  const ctx = canvas.getContext('2d');
+
+  // 🔥 gambar frame dulu
+  ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+
+  // 🔥 posisi foto di dalam frame (adjust sesuai asset kamu)
+  const photoX = canvas.width * 0.1;
+  const photoY = canvas.height * 0.15;
+  const photoWidth = canvas.width * 0.8;
+  const photoHeight = canvas.height * 0.55;
+
+  ctx.drawImage(photo, photoX, photoY, photoWidth, photoHeight);
+
+  // 🔥 convert ke file
+  const link = document.createElement('a');
+  link.download = 'polaroid-photo.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
 </script>
 
 <style scoped>
@@ -217,6 +266,9 @@ onBeforeUnmount(() => {
   display: block;
   background: #f5e6f0;
   object-fit: cover;
+
+  /* 🔥 mirror effect */
+  transform: scaleX(-1);
 }
 
 .frame-overlay {
