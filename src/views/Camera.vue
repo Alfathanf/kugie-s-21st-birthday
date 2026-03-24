@@ -99,8 +99,8 @@ function capturePhoto() {
   const canvas = document.createElement('canvas')
 
   // 🔥 ukuran area layar kamera (sudah disesuaikan)
-  canvas.width = 360
-  canvas.height = 230
+  canvas.width = 370
+  canvas.height = 275
 
   const ctx = canvas.getContext('2d')
 
@@ -207,10 +207,10 @@ onBeforeUnmount(() => stopStream())
 /* 🔥 POSISI VIDEO (SUDAH PAS KE FRAME) */
 .video-feed {
   position: absolute;
-  top: 12%;     /* SESUAIKAN DENGAN HOLE FRAME */
-  left: 8%;
-  width: 64%;
-  height: 52%;
+  top: 15%;     /* SESUAIKAN DENGAN HOLE FRAME */
+  left: 10%;
+  width: 70%;
+  height: 100%;
   object-fit: cover;
   z-index: 1;
 
