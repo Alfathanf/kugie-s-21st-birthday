@@ -146,10 +146,10 @@ async function downloadPhoto() {
   // 🔥 FOTO DULU (BACKGROUND)
   ctx.drawImage(
   photo,
-  frame.width * 0.01,  // left
-  frame.height * 0.01, // top
-  frame.width * 0.764,  // width
-  frame.height * 0.618  // height
+  frame.width * 0.05,  // left
+  frame.height * 0.05, // top
+  frame.width * 0.62,  // width
+  frame.height * 0.8  // height
 )
 
   // 🔥 FRAME DI ATAS
@@ -212,8 +212,8 @@ onBeforeUnmount(() => stopStream())
 .video-feed {
   position: absolute;
 
-  top: 9%;
-  left: 5%;
+  top: 1%;
+  left: 1%;
 
   width: 62%;
   height: 80%;
@@ -243,11 +243,11 @@ onBeforeUnmount(() => stopStream())
 .polaroid-photo {
   position: absolute;
 
-  top: 1%;
-  left: 1%;
+  top: 5%;
+  left: 5%;
 
-  width: 76.4%;
-  height: 61.8%;
+  width: 62%;
+  height: 80%;
 
   object-fit: cover;
 
