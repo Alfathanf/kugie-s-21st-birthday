@@ -24,7 +24,6 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import music from '../utils/music';
 
 const CORRECT_PIN = '150622';
 const router = useRouter();
@@ -47,7 +46,6 @@ function deleteDigit() {
 function checkPin() {
   if (pinValue.value === CORRECT_PIN) {
     error.value = '';
-    music.start();
     router.push('/menu');
   } else {
     error.value = 'Incorrect PIN. Try again!';

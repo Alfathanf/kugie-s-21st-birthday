@@ -10,9 +10,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useAudio } from './composables/useAudio';
 
 const pointerTimer = ref(null);
+
+const { play } = useAudio();
+
+onMounted(() => {
+  play();
+});
 
 function heartTrail(event) {
   if (pointerTimer.value) return;

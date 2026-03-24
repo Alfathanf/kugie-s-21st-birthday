@@ -27,6 +27,12 @@
             <span class="gift-emoji">📸</span>
           </div>
         </button>
+        <button class="gift-box" @click="navigate('crossword')" title="Crossword">
+          <div class="gift-image-container">
+            <img src="/assets/images/gift5.png" alt="Crossword" />
+            <span class="gift-emoji">🧩</span>
+          </div>
+        </button>
       </div>
     </div>
   </section>

@@ -5,6 +5,7 @@ import Comic from '../views/Comic.vue';
 import Invitation from '../views/Invitation.vue';
 import Game from '../views/Game.vue';
 import Camera from '../views/Camera.vue';
+import CrosswordGame from '../views/CrosswordGame.vue';
 
 const routes = [
   { path: '/', name: 'Lock', component: Lock },
@@ -13,6 +14,7 @@ const routes = [
   { path: '/invitation', name: 'Invitation', component: Invitation },
   { path: '/game', name: 'Game', component: Game },
   { path: '/camera', name: 'Camera', component: Camera },
+  { path: '/crossword', name: 'Crossword', component: CrosswordGame },
   { path: '/:pathMatch(.*)*', redirect: '/' }
 ];
 

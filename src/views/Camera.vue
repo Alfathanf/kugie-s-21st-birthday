@@ -12,7 +12,8 @@
       </div>
 
       <div v-if="mode === 'polaroid'" class="polaroid-window">
-        <div class="polaroid-frame">
+        <div class="polaroid-frame-wrapper">
+          <img src="/assets/images/polaroid_frame.png" alt="Polaroid Frame" class="polaroid-frame-image" />
           <img v-if="capturedImage" :src="capturedImage" alt="Captured" class="polaroid-photo" />
         </div>
       </div>
@@ -225,6 +226,29 @@ onBeforeUnmount(() => {
     opacity: 1;
     transform: scale(1) rotateZ(0);
   }
+}
+
+.polaroid-frame-wrapper {
+  position: relative;
+  width: min(420px, 90vw);
+  max-width: 420px;
+}
+
+.polaroid-frame-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.polaroid-photo {
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  width: 80%;
+  height: 55%;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .polaroid-frame {
