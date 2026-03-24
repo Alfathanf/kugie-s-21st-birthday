@@ -112,8 +112,8 @@ function capturePhoto() {
   video,
   video.videoWidth * 0.2,  // crop kiri
   video.videoHeight * 0.1, // crop atas
-  video.videoWidth * 0.6,  // lebar crop
-  video.videoHeight * 0.6, // tinggi crop
+  video.videoWidth * 0.7,  // lebar crop
+  video.videoHeight * 1, // tinggi crop
   0, 0,
   canvas.width,
   canvas.height
