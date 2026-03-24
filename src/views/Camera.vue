@@ -47,7 +47,7 @@
         Retake
       </button>
 
-      <button v-if="mode === 'polaroid'" @click="downloadPhoto" class="btn-primary save-btn">
+      <button v-if="mode === 'polaroid'" @click="downloadPhoto" class="btn-primary">
             💾 Save Photo
       </button>
 
@@ -252,14 +252,6 @@ onBeforeUnmount(() => stopStream())
   width: 100%;
   position: relative;
   z-index: 2; /* 🔥 LEBIH TINGGI */
-}
-
-/* tombol biar ga ketutup */
-.save-btn {
-  position: absolute;
-  bottom: -50px;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 /* ================= BUTTON ================= */
