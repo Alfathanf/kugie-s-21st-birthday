@@ -109,10 +109,15 @@ function capturePhoto() {
   ctx.scale(-1, 1)
 
   ctx.drawImage(
-    video,
-    0, 0, video.videoWidth, video.videoHeight,
-    0, 0, canvas.width, canvas.height
-  )
+  video,
+  video.videoWidth * 0.2,  // crop kiri
+  video.videoHeight * 0.1, // crop atas
+  video.videoWidth * 0.6,  // lebar crop
+  video.videoHeight * 0.6, // tinggi crop
+  0, 0,
+  canvas.width,
+  canvas.height
+)
 
   capturedImage.value = canvas.toDataURL('image/png')
 
