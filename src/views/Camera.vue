@@ -99,6 +99,9 @@ function capturePhoto() {
 
   const ctx = canvas.getContext('2d')
 
+  ctx.translate(canvas.width, 0)
+  ctx.scale(-1, 1)
+
   ctx.drawImage(
   video,
   0, 0,
@@ -133,9 +136,6 @@ async function downloadPhoto() {
   canvas.height = frame.height
 
   const ctx = canvas.getContext('2d')
-  // sebelum draw photo
-  ctx.translate(canvas.width, 0)
-  ctx.scale(-1, 1)
 
   // 🔥 FOTO DULU (BACKGROUND)
   ctx.drawImage(
@@ -203,7 +203,19 @@ onBeforeUnmount(() => stopStream())
 }
 
 /* 🔥 POSISI VIDEO (SUDAH PAS KE FRAME) */
-.video-feed,
+.video-feed{
+  position: absolute;
+
+  top: 1%;
+  left: 1%;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  z-index: 1;
+}
+
 .photo-feed {
   position: absolute;
 
