@@ -140,8 +140,8 @@ async function downloadPhoto() {
   // ================= FOTO (MIRROR ONLY) =================
 ctx.save() // simpan state
 
-ctx.translate(canvas.width, 0)
-ctx.scale(-1, 1)
+// ctx.translate(canvas.width, 0)
+// ctx.scale(-1, 1)
 
 // hitung posisi (tetap sama)
 const frameX = frame.width * 0.05
