@@ -21,7 +21,7 @@
           <img 
             v-if="capturedImage" 
             :src="capturedImage" 
-            class="video-feed" 
+            class="photo-feed" 
           />
           <!-- 🔥 FRAME DI ATAS -->
           <img src="/assets/images/polaroid_frame.png" class="frame-overlay" />
@@ -107,7 +107,7 @@ function capturePhoto() {
   0, 0,
   canvas.width,
   canvas.height
-) 
+  )
 
   capturedImage.value = canvas.toDataURL('image/png')
 
@@ -200,7 +200,8 @@ onBeforeUnmount(() => stopStream())
 }
 
 /* 🔥 POSISI VIDEO (SUDAH PAS KE FRAME) */
-.video-feed {
+.video-feed,
+.photo-feed {
   position: absolute;
 
   top: 1%;
@@ -212,7 +213,7 @@ onBeforeUnmount(() => stopStream())
   object-fit: cover;
   z-index: 1;
 
-  transform: scaleX(-1);
+  transform: scaleX(-1); /* 🔥 mirror di sini aja */
 }
 
 /* FRAME */
