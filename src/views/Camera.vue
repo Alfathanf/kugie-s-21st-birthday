@@ -260,7 +260,7 @@ onBeforeUnmount(() => stopStream())
   object-fit: cover;
   z-index: 1;
 
-  transform: scaleX(-1); /* 🔥 mirror di sini aja */
+  /* transform: scaleX(-1); 🔥 mirror di sini aja */
 }
 
 /* FRAME */
