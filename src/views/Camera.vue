@@ -133,6 +133,9 @@ async function downloadPhoto() {
   canvas.height = frame.height
 
   const ctx = canvas.getContext('2d')
+  // sebelum draw photo
+  ctx.translate(canvas.width, 0)
+  ctx.scale(-1, 1)
 
   // 🔥 FOTO DULU (BACKGROUND)
   ctx.drawImage(
