@@ -137,17 +137,48 @@ async function downloadPhoto() {
 
   const ctx = canvas.getContext('2d')
 
-  // 🔥 FOTO DULU (BACKGROUND)
-  ctx.drawImage(
-  photo,
-  frame.width * 0.01,  // left
-  frame.height * 0.01, // top
-  frame.width * 1,  // width
-  frame.height * 1  // height
-  )
+  // ================= FOTO (MIRROR ONLY) =================
+ctx.save() // simpan state
 
-  // 🔥 FRAME DI ATAS
-  ctx.drawImage(frame, 0, 0)
+ctx.translate(canvas.width, 0)
+ctx.scale(-1, 1)
+
+// hitung posisi (tetap sama)
+const frameX = frame.width * 0.05
+const frameY = frame.height * 0.05
+const frameW = frame.width * 0.9
+const frameH = frame.height * 0.9
+
+const imgRatio = photo.width / photo.height
+const frameRatio = frameW / frameH
+
+let drawWidth, drawHeight, offsetX, offsetY
+
+if (imgRatio > frameRatio) {
+  drawHeight = frameH
+  drawWidth = frameH * imgRatio
+  offsetX = frameX - (drawWidth - frameW) / 2
+  offsetY = frameY
+} else {
+  drawWidth = frameW
+  drawHeight = frameW / imgRatio
+  offsetX = frameX
+  offsetY = frameY - (drawHeight - frameH) / 2
+}
+
+// ⚠️ karena canvas di-mirror, posisi X harus dibalik
+ctx.drawImage(
+  photo,
+  canvas.width - offsetX - drawWidth,
+  offsetY,
+  drawWidth,
+  drawHeight
+)
+
+ctx.restore() // 🔥 BALIK NORMAL
+
+// ================= FRAME (NORMAL) =================
+ctx.drawImage(frame, 0, 0)
 
   const link = document.createElement('a')
   link.download = 'polaroid.png'
