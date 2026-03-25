@@ -1,6 +1,6 @@
 <template>
   <section class="screen game-screen">
-    <h2>Complete the Crossword Puzzle to Get Your Gift! (harusnya bisa sih ya)</h2>
+    <h2>Complete the Crossword Puzzle to Get Your Gift! (cluenya cari sendiri ya hehe)</h2>
 
     <!-- GRID -->
     <div class="grid-shell">
@@ -127,7 +127,7 @@ function checkAnswers() {
     showSuccess.value = true
     feedback.value = ''
   } else {
-    feedback.value = 'tetttt totttt! coba cek lagi clue nya, semangatttt!'
+    feedback.value = 'tetttt totttt! coba cek lagi clue nya (cluenya bisa kesebar di mana aja), semangatttt!'
   }
 }
 
