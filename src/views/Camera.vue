@@ -140,11 +140,11 @@ async function downloadPhoto() {
   // 🔥 FOTO DULU (BACKGROUND)
   ctx.drawImage(
   photo,
-  frame.width * 0.05,  // left
-  frame.height * 0.05, // top
+  frame.width * 0.01,  // left
+  frame.height * 0.01, // top
   frame.width * 1,  // width
   frame.height * 1  // height
-)
+  )
 
   // 🔥 FRAME DI ATAS
   ctx.drawImage(frame, 0, 0)
