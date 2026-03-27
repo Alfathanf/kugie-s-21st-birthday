@@ -2,7 +2,7 @@
   <section class="screen comic-screen">
     <!-- <button class="back-btn top" @click="goBack">← Back to Menu</button> -->
     <div class="comic-header">
-      <h2>Comic</h2>
+      <h2>⭐ COMIC ⭐</h2>
       <h3>aku buat ini karena kamu sering baca webtoon dan manga</h3>
       <h3>bacanya dari kiri ke kanan yah</h3>
     </div>
@@ -17,7 +17,7 @@
         />
       </div>
     </div>
-    <button class="back-btn" @click="goBack">← Back to Menu</button>
+    <button class="back-btn" @click="goBack">More Gifts! ✨</button>
   </section>
 </template>
 
@@ -28,8 +28,7 @@ const images = [
   '/assets/images/comic1.png',
   '/assets/images/comic2.png',
   '/assets/images/comic3.png',
-  '/assets/images/comic4.png',
-  '/assets/images/comic5.png'
+  '/assets/images/comic4.png'
 ];
 
 function goBack() {
