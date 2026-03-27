@@ -31,8 +31,8 @@
     <div v-if="showModal" class="modal-layer" @click.self="closeModal">
       <div class="modal-content">
         <h2>🎉 YAY! 🎉</h2>
-        <p>I can't wait! Let's make it special together. ❤️</p>
-        <button @click="closeModal">Thank You! ✨</button>
+        <p>Sampai bertemu di hari tersebut sayang! ❤️</p>
+        <button @click="closeModal">More Gifts! ✨</button>
       </div>
     </div>
   </section>

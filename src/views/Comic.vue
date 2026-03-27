@@ -3,6 +3,8 @@
     <!-- <button class="back-btn top" @click="goBack">← Back to Menu</button> -->
     <div class="comic-header">
       <h2>Comic</h2>
+      <h3>aku buat ini karena kamu sering baca webtoon dan manga</h3>
+      <h3>bacanya dari kiri ke kanan yah</h3>
     </div>
     <div class="comic-container">
       <div class="comic-frames">

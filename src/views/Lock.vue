@@ -64,6 +64,10 @@ function checkPin() {
 }
 
 .lock-card {
+  width: 100%;
+  max-width: 360px; /* 🔥 batas biar ga melebar */
+  padding: 20px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,6 +86,14 @@ function checkPin() {
     transform: translateY(0);
   }
 }
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
 
 .title-container {
   text-align: center;
